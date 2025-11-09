@@ -16,7 +16,33 @@
       --hud-bg: rgba(2,14,18,0.55);
     }
     html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; -webkit-font-smoothing:antialiased; color:var(--neon);}
-    body{
+    <body /* Modal de secuencia (ventana extra) */
+.seq-modal {
+  position: fixed;
+  inset: 0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index: 60;
+  background: rgba(0,0,0,0.55);
+}
+.seq-card{
+  width: 92%;
+  max-width: 520px;
+  background: linear-gradient(180deg, rgba(2,12,14,0.9), rgba(4,16,18,0.75));
+  border: 1px solid rgba(0,184,173,0.08);
+  padding: 18px;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+  color: var(--neon);
+}
+.seq-title{ font-size:20px; font-weight:800; letter-spacing:1px; margin-bottom:8px; text-align:center;}
+.seq-sub{ font-size:13px; color:#8fe6dd; text-align:center; margin-bottom:12px; }
+.seq-log{ height:160px; overflow:auto; background: rgba(0,0,0,0.12); border-radius:8px; padding:10px; font-family: ui-monospace, monospace; font-size:13px; border:1px solid rgba(0,184,173,0.03); }
+.seq-progress{ margin-top:12px; height:10px; background: rgba(255,255,255,0.02); border-radius:8px; overflow:hidden; border:1px solid rgba(0,184,173,0.02); }
+.seq-bar{ height:100%; width:0%; background: linear-gradient(90deg,var(--neon),#7ef1e6); transition: width 180ms linear; }
+.seq-actions{ display:flex; gap:8px; justify-content:center; margin-top:12px; }
+.seq-btn{ background:transparent; border:1px solid rgba(0,184,173,0.12); padding:8px 12px; color:var(--neon); border-radius:8px; cursor:pointer; font-weight:700;}{
       background: linear-gradient(180deg,var(--bg-1) 0%, var(--bg-2) 100%);
       overflow:hidden;
     }
