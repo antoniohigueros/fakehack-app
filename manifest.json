@@ -1,23 +1,15 @@
 {
-  "name": "ctOS — Simulador (cosplay)",
+  "name": "ctOS — Simulador (JAGGER)",
   "short_name": "ctOS Sim",
   "id": "ctos-sim-antoniohigueros",
-  "description": "Simulador de hacking estilo Watch Dogs — hecho para cosplay.",
+  "description": "Simulador de hacking estilo Watch Dogs — cosplay visual.",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#020b16",
+  "background_color": "#020617",
   "theme_color": "#00b8ff",
   "orientation": "portrait",
   "icons": [
-    {
-      "src": "Icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "Icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
   ]
 }
