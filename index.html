@@ -29,6 +29,11 @@
     @media (max-width:900px){.main{grid-template-columns:1fr} .rightcol{order:2}}
   </style>
 </head>
+  <script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js').catch(()=>{/* no crítico */});
+}
+  </script>
 <body>
   <div class="app">
     <header>
