@@ -1,0 +1,17 @@
+{
+  "background_color": "#ffffff",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "Hack fake",
+  "orientation": "portrait",
+  "scope": "/",
+  "short_name": "Fakehack",
+  "start_url": "/",
+  "theme_color": "#ffffff",
+  "description": "Simulador de hacker (no real)",
+  "id": "https://antoniohigueros.github.io/fakehack-app/",
+  "lang": "es",
+  "share_target": {
+    "method": "GET"
+  }
+}
