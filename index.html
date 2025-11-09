@@ -1,168 +1,40 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Simulador Hacker — WatchDogs Cosplay</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ctOS — Simulador (cosplay)</title>
   <link rel="manifest" href="manifest.json">
-    :root{--bg:#050607;--panel:#071017;--accent:#39ff14;--muted:#7fb3a7}
-    html,body{height:100%;margin:0;font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace;background:linear-gradient(180deg,#000 0%, #071018 60%);color:var(--accent)}
-    .app{display:flex;flex-direction:column;height:100vh;padding:14px;gap:12px}
-    header{display:flex;justify-content:space-between;align-items:center}
-    h1{font-size:14px;margin:0;color:var(--accent)}
-    .profile{display:flex;align-items:center;gap:10px}
-    .avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#0b1620,#16323a);display:flex;align-items:center;justify-content:center;font-weight:800;color:rgba(255,255,255,0.06);font-size:16px;filter:blur(6px) opacity(0.6);border:1px solid rgba(255,255,255,0.03)}
-    .main{display:grid;grid-template-columns:1fr 340px;gap:12px;flex:1}
-    .panel{background:rgba(0,0,0,0.45);border:1px solid rgba(57,255,20,0.07);padding:12px;border-radius:10px;backdrop-filter:blur(4px)}
-    .terminal{height:100%;overflow:auto;padding:8px;background:linear-gradient(180deg, rgba(0,0,0,0.2), transparent);box-shadow:inset 0 0 30px rgba(0,0,0,0.6)}
-    .controls{display:flex;gap:8px;flex-wrap:wrap}
-    button{background:transparent;border:1px solid rgba(57,255,20,0.14);color:var(--accent);padding:8px 10px;border-radius:8px;font-weight:600}
-    .small{font-size:12px;color:var(--muted)}
-    .rightcol{display:flex;flex-direction:column;gap:10px}
-    .card{padding:10px;border-radius:8px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.02)}
-    .stat{display:flex;justify-content:space-between;align-items:center}
-    .code{font-size:20px;letter-spacing:3px}
-    .progress{height:10px;background:rgba(255,255,255,0.03);border-radius:6px;overflow:hidden;margin-top:8px}
-    .bar{height:100%;width:0;background:linear-gradient(90deg, rgba(57,255,20,0.2), rgba(57,255,20,0.6));transition:width 0.2s}
-    footer{font-size:12px;color:var(--muted);display:flex;justify-content:space-between}
-    @media (max-width:900px){.main{grid-template-columns:1fr} .rightcol{order:2}}
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="app">
-    <header>
-      <div style="display:flex;align-items:center;gap:12px">
-        <h1>ctOS — Simulador (cosplay)</h1>
-        <div class="profile small">
-          <div class="avatar" title="Perfil difuminado">J A G G E R</div>
-          <div class="small">Perfil (difuminado)</div>
-        </div>
-      </div>
-      <div class="small">Ficción visual — no realiza operaciones reales</div>
-    </header>
+  <div class="container">
+    <h1 class="title">ctOS — Simulador (cosplay)</h1>
+    <h2 class="alias">alias: <span id="alias">JAGGER</span></h2>
 
-    <div class="main">
-      <div class="panel">
-        <div class="controls card">
-          <div style="display:flex;justify-content:space-between;align-items:center">
-            <div class="small">Acciones</div>
-            <div class="small">alias: <strong id="alias">JAGGER</strong></div>
-          </div>
-          <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
-            <button onclick="fakeScan()">Scanear red</button>
-            <button onclick="getFakeIP()">Obtener IP</button>
-            <button onclick="genCode()">Generar código</button>
-            <button onclick="decrypt()">Desencriptar</button>
-            <button onclick="toggleGlitch()">Glitch</button>
-          </div>
-        </div>
-
-        <div class="terminal card" id="terminal" aria-live="polite"></div>
-      </div>
-
-      <div class="rightcol">
-        <div class="card">
-          <div class="small">Último código</div>
-          <div class="stat" style="margin-top:6px">
-            <div class="code" id="lastCode">—— ———</div>
-            <div>
-              <button onclick="copyText('lastCode')">Copiar</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="small">Detalles</div>
-          <div style="margin-top:8px">
-            <div class="stat"><div>IP</div><div id="fakeIp">—</div></div>
-            <div class="stat"><div>MAC</div><div id="fakeMac">—</div></div>
-            <div class="stat"><div>Puerto abierto</div><div id="fakePort">—</div></div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="small">Progreso</div>
-          <div class="progress"><div class="bar" id="progBar"></div></div>
-        </div>
-
-        <div class="card small">Sugerencia: guarda esta página como acceso directo en tu teléfono para usarla como "app".</div>
-      </div>
+    <div class="actions">
+      <button>Escanear red</button>
+      <button>Obtener IP</button>
+      <button>Generar código</button>
+      <button>Desencriptar</button>
+      <button>Glitch</button>
     </div>
 
-    <footer>
-      <div>Simulador creado para cosplay — Watch Dogs vibes</div>
-      <div><button onclick="resetAll()">Reset</button></div>
-    </footer>
+    <div class="output">
+      <h3>Último código</h3>
+      <div class="code-box">_ _ _ _ _ _ _</div>
+      <button>Copiar</button>
+
+      <h3>Detalles</h3>
+      <p>IP: <span>_</span></p>
+      <p>MAC: <span>_</span></p>
+      <p>Puerto abierto: <span>_</span></p>
+    </div>
+
+    <div class="footer">
+      <p>Simulador creado para cosplay — Watch Dogs vibes</p>
+    </div>
   </div>
-
-  <script>
-    const term = document.getElementById('terminal');
-    const aliasEl = document.getElementById('alias');
-    const lastCode = document.getElementById('lastCode');
-    const fakeIpEl = document.getElementById('fakeIp');
-    const fakeMacEl = document.getElementById('fakeMac');
-    const fakePortEl = document.getElementById('fakePort');
-    const progBar = document.getElementById('progBar');
-
-    // small helpers
-    function writeLine(txt, delay=10){
-      return new Promise(res=>{
-        let i=0; const el=document.createElement('div'); term.appendChild(el); term.scrollTop = term.scrollHeight;
-        const t = setInterval(()=>{ el.textContent += txt[i++]||''; term.scrollTop = term.scrollHeight; if(i>txt.length){ clearInterval(t); res(); } }, delay);
-      })
-    }
-
-    function randInt(min,max){return Math.floor(Math.random()*(max-min+1))+min}
-    function randIPv4(){return randInt(1,255)+'.'+randInt(0,255)+'.'+randInt(0,255)+'.'+randInt(1,254)}
-    function randMAC(){const hex="0123456789ABCDEF";let s='';for(let i=0;i<6;i++){s+=hex[Math.floor(Math.random()*16)]; if(i<5) s+=':';} return s}
-    function randPort(){return randInt(20,65000)}
-    function randCode(len=6){let s=''; for(let i=0;i<len;i++) s+=Math.floor(Math.random()*10); return s}
-
-    // actions
-    async function fakeScan(){ aliasEl.textContent = 'scanner'; await writeLine('Iniciando escaneo de red...'); await animateProgress(0.4);
-      await writeLine('Buscando hosts...'); await writeLine('Hosts encontrados: ' + randInt(3,18));
-      for(let i=0;i<randInt(3,6);i++){ await writeLine(' - 192.168.'+randInt(0,5)+'.'+randInt(2,250)+' | respuesta ' + randInt(1,200)+'ms'); }
-      await writeLine('Escaneo finalizado.'); progBar.style.width='0%';
-    }
-
-    async function getFakeIP(){ aliasEl.textContent='netprobe'; await writeLine('Obteniendo IP pública...'); await animateProgress(0.6);
-      const ip = randIPv4(); const mac = randMAC(); const port = randPort();
-      fakeIpEl.textContent = ip; fakeMacEl.textContent = mac; fakePortEl.textContent = port;
-      await writeLine('IP pública estimada: ' + ip);
-      await writeLine('MAC asociada: ' + mac);
-      await writeLine('Puertos abiertos detectados: ' + port);
-      progBar.style.width='0%';
-    }
-
-    async function genCode(){ aliasEl.textContent='codec'; await writeLine('Generando token de acceso...'); await animateProgress(0.75);
-      const code = randCode(6); lastCode.textContent = code; await writeLine('TOKEN: ' + code);
-      await writeLine('Código válido: 00:15 minutos (simulado)'); progBar.style.width='0%';
-    }
-
-    async function decrypt(){ aliasEl.textContent='crypter'; await writeLine('Iniciando desencriptado...'); await animateProgress(0.9);
-      await writeLine('Patrón detectado: AES-256 (simulado)'); await writeLine('Clave candidata: ' + randCode(12)); progBar.style.width='0%';
-    }
-
-    function toggleGlitch(){ document.body.classList.toggle('glitch'); if(document.body.classList.contains('glitch')){ writeLine('[GLITCH MODE] Visuales activos'); startGlitch(); } else { writeLine('[GLITCH MODE] Off'); stopGlitch(); } }
-
-    // progress animation
-    function animateProgress(targetFraction=1){ return new Promise(res=>{
-      let w=0; progBar.style.width='0%'; const id=setInterval(()=>{ w += Math.random()*12; if(w>=targetFraction*100){ progBar.style.width = '100%'; clearInterval(id); setTimeout(()=>{ progBar.style.width='0%'; res(); }, 350); } else { progBar.style.width = w + '%'; } }, 120);
-    }) }
-
-    // glitch effect (simple)
-    let glitchInterval=null;
-    function startGlitch(){ glitchInterval = setInterval(()=>{ document.querySelectorAll('.card, .terminal').forEach((el)=>{ el.style.transform = 'translate(' + (Math.random()*6-3) + 'px,' + (Math.random()*6-3) + 'px)'; el.style.opacity = 0.9 + Math.random()*0.15; }); },120); }
-    function stopGlitch(){ clearInterval(glitchInterval); document.querySelectorAll('.card, .terminal').forEach((el)=>{ el.style.transform='none'; el.style.opacity=1; }); }
-
-    function copyText(id){ const t = document.getElementById(id).textContent; navigator.clipboard?.writeText(t).then(()=>writeLine('Copiado al portapapeles: ' + t)).catch(()=>writeLine('Navegador no permite copiar.')) }
-
-    function resetAll(){ term.innerHTML=''; fakeIpEl.textContent='—'; fakeMacEl.textContent='—'; fakePortEl.textContent='—'; lastCode.textContent='—— ———'; aliasEl.textContent='JAGGER'; progBar.style.width='0%'; stopGlitch(); }
-
-    // initial message
-    (async ()=>{ await writeLine('ctOS Sim — interfaz simulada iniciada'); await writeLine('Consejo: esta app es 100% visual, no realiza operaciones de red reales'); })();
-  </script>
 </body>
-</html>                
-
+</html>
     
