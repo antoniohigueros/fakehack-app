@@ -1,172 +1,221 @@
-<!doctype html>
+  <!doctype html>
 
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Simulador Hacker — WatchDogs Cosplay</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>ctOS — JAGGER (Simulador)</title>
+  <meta name="description" content="Simulador visual estilo Watch Dogs — ctOS profile: JAGGER. Puro cosplay, sin funciones reales." />
   <style>
-    <link rel="manifest" href="manifest.json">
-    :root{--bg:#050607;--panel:#071017;--accent:#39ff14;--muted:#7fb3a7}
-    html,body{height:100%;margin:0;font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace;background:linear-gradient(180deg,#000 0%, #071018 60%);color:var(--accent)}
-    .app{display:flex;flex-direction:column;height:100vh;padding:14px;gap:12px}
-    header{display:flex;justify-content:space-between;align-items:center}
-    h1{font-size:14px;margin:0;color:var(--accent)}
-    .profile{display:flex;align-items:center;gap:10px}
-    .avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#0b1620,#16323a);display:flex;align-items:center;justify-content:center;font-weight:800;color:rgba(255,255,255,0.06);font-size:16px;filter:blur(6px) opacity(0.6);border:1px solid rgba(255,255,255,0.03)}
-    .main{display:grid;grid-template-columns:1fr 340px;gap:12px;flex:1}
-    .panel{background:rgba(0,0,0,0.45);border:1px solid rgba(57,255,20,0.07);padding:12px;border-radius:10px;backdrop-filter:blur(4px)}
-    .terminal{height:100%;overflow:auto;padding:8px;background:linear-gradient(180deg, rgba(0,0,0,0.2), transparent);box-shadow:inset 0 0 30px rgba(0,0,0,0.6)}
-    .controls{display:flex;gap:8px;flex-wrap:wrap}
-    button{background:transparent;border:1px solid rgba(57,255,20,0.14);color:var(--accent);padding:8px 10px;border-radius:8px;font-weight:600}
-    .small{font-size:12px;color:var(--muted)}
-    .rightcol{display:flex;flex-direction:column;gap:10px}
-    .card{padding:10px;border-radius:8px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.02)}
-    .stat{display:flex;justify-content:space-between;align-items:center}
-    .code{font-size:20px;letter-spacing:3px}
-    .progress{height:10px;background:rgba(255,255,255,0.03);border-radius:6px;overflow:hidden;margin-top:8px}
-    .bar{height:100%;width:0;background:linear-gradient(90deg, rgba(57,255,20,0.2), rgba(57,255,20,0.6));transition:width 0.2s}
-    footer{font-size:12px;color:var(--muted);display:flex;justify-content:space-between}
-    @media (max-width:900px){.main{grid-template-columns:1fr} .rightcol{order:2}}
+    /* Turquesa oscuro — tema Watch Dogs actualizado */
+    :root{--bg:#021018;--panel:rgba(2,18,24,0.6);--neon:#00b8ad;--muted:#7fb3a7;--glass: rgba(255,255,255,0.02)}
+    html,body{height:100%;margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background:radial-gradient(ellipse at 10% 10%, rgba(0,30,36,0.2), transparent 10%), linear-gradient(180deg,#000814 0%, #001827 60%);color:var(--neon);-webkit-font-smoothing:antialiased}
+    .frame{max-width:420px;margin:0 auto;height:100vh;display:flex;flex-direction:column;gap:10px;padding:14px;box-sizing:border-box;position:relative;overflow:hidden}header{display:flex;align-items:center;gap:12px}
+.profile{display:flex;align-items:center;gap:10px}
+.avatar{width:56px;height:56px;border-radius:50%;background:linear-gradient(130deg,#06282a,#05373a);display:flex;align-items:center;justify-content:center;font-weight:900;color:rgba(255,255,255,0.06);font-size:18px;filter:blur(6px) opacity(0.65);border:1px solid rgba(0,184,173,0.06)}
+.title{font-size:15px;font-weight:700;letter-spacing:0.6px}
+.subtitle{font-size:12px;color:#89d8cf}
+
+.device{flex:1;display:grid;grid-template-columns:1fr 360px;gap:12px}
+@media(max-width:700px){.device{grid-template-columns:1fr}}
+
+.left{background:var(--panel);padding:12px;border-radius:12px;backdrop-filter: blur(6px);box-shadow:0 6px 18px rgba(0,0,0,0.6);position:relative}
+.right{display:flex;flex-direction:column;gap:10px}
+
+.controls{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+button.appbtn{background:transparent;border:1px solid rgba(0,184,173,0.12);padding:8px 12px;border-radius:10px;color:var(--neon);font-weight:700}
+button.appbtn:active{transform:translateY(1px)}
+
+.terminal{height:50vh;overflow:auto;padding:10px;background:linear-gradient(180deg,rgba(0,0,0,0.25),transparent);border-radius:10px;border:1px solid rgba(0,184,173,0.06);font-family:ui-monospace, SFMono-Regular, Menlo, monospace;font-size:13px}
+.line{opacity:0.95}
+.code{font-size:22px;letter-spacing:4px;font-weight:800}
+
+.statcard{background:var(--glass);padding:10px;border-radius:10px;border:1px solid rgba(0,184,173,0.04)}
+.stat{display:flex;justify-content:space-between;align-items:center;margin:6px 0}
+
+.hud{position:relative;height:200px;border-radius:10px;overflow:hidden;background:linear-gradient(90deg, rgba(0,184,173,0.03), rgba(0,184,173,0.01));border:1px solid rgba(0,184,173,0.03)}
+.scanline{position:absolute;inset:0;background-image:linear-gradient(180deg, rgba(0,184,173,0.02), transparent 30%);mix-blend-mode:screen}
+
+.footer{font-size:12px;color:#7fd8d1;display:flex;justify-content:space-between;align-items:center}
+.small{font-size:12px;color:#89d8cf}
+
+.glow{box-shadow:0 6px 25px rgba(0,184,173,0.08)}
+
+/* quick visual progress bar */
+.progress{height:8px;background:rgba(255,255,255,0.02);border-radius:6px;overflow:hidden}
+.bar{height:100%;width:0;background:linear-gradient(90deg,#00b8ad,#66e0d9);transition:width 200ms}
+
+/* HUD map mock */
+.map{height:100%;display:flex;align-items:center;justify-content:center;color:rgba(0,184,173,0.12);font-size:12px}
+
+/* speech button */
+.mic{width:44px;height:44px;border-radius:12px;border:1px solid rgba(0,184,173,0.12);display:flex;align-items:center;justify-content:center}
+
+/* Scratch (rañones) overlay */
+.scratch-layer{position:absolute;inset:0;pointer-events:none;z-index:50}
+
+/* button row mobile */
+.extras{display:flex;gap:8px;margin-top:8px}
+
+/* responsive tweaks */
+@media(max-width:420px){.frame{padding:10px}.avatar{width:48px;height:48px}}
+
   </style>
 </head>
-  <script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('service-worker.js').catch(()=>{/* no crítico */});
-}
-  </script>
 <body>
-  <div class="app">
+  <div class="frame" id="app">
     <header>
-      <div style="display:flex;align-items:center;gap:12px">
-        <h1>ctOS — Simulador (cosplay)</h1>
-        <div class="profile small">
-          <div class="avatar" title="Perfil difuminado">J A G G E R</div>
-          <div class="small">Perfil (difuminado)</div>
+      <div class="profile">
+        <div class="avatar">J A G G E R</div>
+        <div>
+          <div class="title">ctOS — Simulador</div>
+          <div class="subtitle">Perfil difuminado • alias: <strong>JAGGER</strong></div>
         </div>
       </div>
-      <div class="small">Ficción visual — no realiza operaciones reales</div>
-    </header><div class="main">
-  <div class="panel">
-    <div class="controls card">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div class="small">Acciones</div>
-        <div class="small">alias: <strong id="alias">JAGGER</strong></div>
-      </div>
-      <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
-        <button onclick="fakeScan()">Scanear red</button>
-        <button onclick="getFakeIP()">Obtener IP</button>
-        <button onclick="genCode()">Generar código</button>
-        <button onclick="decrypt()">Desencriptar</button>
-        <button onclick="toggleGlitch()">Glitch</button>
-      </div>
+      <div style="margin-left:auto" class="small">Ficción visual — no realiza operaciones reales</div>
+    </header><div class="device">
+  <div class="left">
+    <div class="controls">
+      <button class="appbtn" onclick="action('scan')">📡 Escanear</button>
+      <button class="appbtn" onclick="action('ip')">🌐 IP</button>
+      <button class="appbtn" onclick="action('code')">🔐 Código</button>
+      <button class="appbtn" onclick="action('decrypt')">🗝️ Desencriptar</button>
+      <button class="appbtn" onclick="action('map')">📍 ctOS Map</button>
+      <div style="flex:1"></div>
+      <div class="mic" id="micBtn" title="Habla para comandos" onclick="speakPrompt()">🎙️</div>
     </div>
 
-    <div class="terminal card" id="terminal" aria-live="polite"></div>
+    <div class="terminal" id="terminal" aria-live="polite"></div>
+
+    <div class="extras">
+      <button class="appbtn" id="scratchBtn" onclick="toggleScratch()">⚡ Efecto hacker</button>
+      <button class="appbtn" onclick="flashScreen()">✨ Flash</button>
+    </div>
   </div>
 
-  <div class="rightcol">
-    <div class="card">
+  <div class="right">
+    <div class="statcard hud">
+      <div class="map" id="mapArea">Nodos ctOS - simulados</div>
+      <div class="scanline"></div>
+    </div>
+
+    <div class="statcard">
       <div class="small">Último código</div>
-      <div class="stat" style="margin-top:6px">
-        <div class="code" id="lastCode">—— ———</div>
-        <div>
-          <button onclick="copyText('lastCode')">Copiar</button>
-        </div>
-      </div>
+      <div class="stat"><div class="code" id="lastCode">— — — — — —</div><button class="appbtn" onclick="copyCode()">Copiar</button></div>
     </div>
 
-    <div class="card">
+    <div class="statcard">
       <div class="small">Detalles</div>
-      <div style="margin-top:8px">
-        <div class="stat"><div>IP</div><div id="fakeIp">—</div></div>
-        <div class="stat"><div>MAC</div><div id="fakeMac">—</div></div>
-        <div class="stat"><div>Puerto abierto</div><div id="fakePort">—</div></div>
-      </div>
+      <div class="stat"><div>IP</div><div id="fakeIp">—</div></div>
+      <div class="stat"><div>MAC</div><div id="fakeMac">—</div></div>
+      <div class="stat"><div>Puerto</div><div id="fakePort">—</div></div>
     </div>
 
-    <div class="card">
+    <div class="statcard">
       <div class="small">Progreso</div>
       <div class="progress"><div class="bar" id="progBar"></div></div>
     </div>
 
-    <div class="card small">Sugerencia: guarda esta página como acceso directo en tu teléfono para usarla como "app".</div>
   </div>
 </div>
 
-<footer>
-  <div>Simulador creado para cosplay — Watch Dogs vibes</div>
-  <div><button onclick="resetAll()">Reset</button></div>
-</footer>
+<div class="footer">
+  <div class="small">Consejo: guarda esta página en la pantalla de inicio para usarla como app</div>
+  <div class="small">ctOS Sim — Watch Dogs vibes</div>
+</div>
+
+<div class="scratch-layer" id="scratchLayer"></div>
 
   </div>  <script>
+    // Small helper utilities
     const term = document.getElementById('terminal');
-    const aliasEl = document.getElementById('alias');
-    const lastCode = document.getElementById('lastCode');
+    const lastCodeEl = document.getElementById('lastCode');
     const fakeIpEl = document.getElementById('fakeIp');
     const fakeMacEl = document.getElementById('fakeMac');
     const fakePortEl = document.getElementById('fakePort');
     const progBar = document.getElementById('progBar');
+    const mapArea = document.getElementById('mapArea');
+    const scratchLayer = document.getElementById('scratchLayer');
 
-    // small helpers
-    function writeLine(txt, delay=10){
-      return new Promise(res=>{
-        let i=0; const el=document.createElement('div'); term.appendChild(el); term.scrollTop = term.scrollHeight;
-        const t = setInterval(()=>{ el.textContent += txt[i++]||''; term.scrollTop = term.scrollHeight; if(i>txt.length){ clearInterval(t); res(); } }, delay);
-      })
+    function write(txt, speed=6){ return new Promise(res=>{ let i=0; const el=document.createElement('div'); el.className='line'; term.appendChild(el); term.scrollTop = term.scrollHeight; const t=setInterval(()=>{ el.textContent += txt[i++]||''; term.scrollTop = term.scrollHeight; if(i>txt.length){ clearInterval(t); res(); } }, speed); }) }
+
+    function randInt(a,b){ return Math.floor(Math.random()*(b-a+1))+a }
+    function randIPv4(){ return randInt(10,200)+'.'+randInt(0,255)+'.'+randInt(0,255)+'.'+randInt(2,254) }
+    function randMAC(){ const hex='0123456789ABCDEF'; let s=''; for(let i=0;i<6;i++){s+=hex[Math.floor(Math.random()*16)]; if(i<5) s+=':';} return s }
+    function randCode(){ return Math.random().toString(36).substring(2,8).toUpperCase() }
+
+    // Actions
+    async function action(act){
+      if(act==='scan'){
+        await write('Iniciando escaneo ctOS...'); await progress(0.6);
+        await write('Hosts detectados: ' + randInt(3,12));
+        for(let i=0;i<randInt(2,5);i++) await write('- ' + randIPv4() + ' | ' + randInt(10,300)+'ms');
+        await write('Escaneo finalizado.');
+      } else if(act==='ip'){
+        await write('Consultando IP pública...'); await progress(0.5);
+        fakeIpEl.textContent = randIPv4(); fakeMacEl.textContent = randMAC(); fakePortEl.textContent = randInt(1000,65000);
+        await write('IP estimada: ' + fakeIpEl.textContent);
+      } else if(act==='code'){
+        await write('Generando token de acceso...'); await progress(0.75);
+        const c=randCode(); lastCodeEl.textContent=c; await write('TOKEN: ' + c + ' (válido 00:15)');
+      } else if(act==='decrypt'){
+        await write('Desencriptando paquete...'); await progress(0.9);
+        await write('Patrón detectado: AES-256 (simulado)'); await write('Clave candidata: ' + randInt(100000000000,999999999999));
+      } else if(act==='map'){
+        await write('Cargando mapa ctOS...'); await progress(0.6);
+        showMap();
+      }
     }
 
-    function randInt(min,max){return Math.floor(Math.random()*(max-min+1))+min}
-    function randIPv4(){return randInt(1,255)+'.'+randInt(0,255)+'.'+randInt(0,255)+'.'+randInt(1,254)}
-    function randMAC(){const hex="0123456789ABCDEF";let s='';for(let i=0;i<6;i++){s+=hex[Math.floor(Math.random()*16)]; if(i<5) s+=':';} return s}
-    function randPort(){return randInt(20,65000)}
-    function randCode(len=6){let s=''; for(let i=0;i<len;i++) s+=Math.floor(Math.random()*10); return s}
+    function progress(frac=1){ return new Promise(res=>{ let w=0; progBar.style.width='0%'; const id=setInterval(()=>{ w += Math.random()*10; if(w>=frac*100){ progBar.style.width='100%'; clearInterval(id); setTimeout(()=>{ progBar.style.width='0%'; res(); },300); } else progBar.style.width = w + '%'; }, 120); }) }
 
-    // actions
-    async function fakeScan(){ aliasEl.textContent = 'scanner'; await writeLine('Iniciando escaneo de red...'); await animateProgress(0.4);
-      await writeLine('Buscando hosts...'); await writeLine('Hosts encontrados: ' + randInt(3,18));
-      for(let i=0;i<randInt(3,6);i++){ await writeLine(' - 192.168.'+randInt(0,5)+'.'+randInt(2,250)+' | respuesta ' + randInt(1,200)+'ms'); }
-      await writeLine('Escaneo finalizado.'); progBar.style.width='0%';
+    function showMap(){ mapArea.innerHTML=''; const n=randInt(4,9); for(let i=0;i<n;i++){ const d=document.createElement('div'); d.style.position='absolute'; d.style.left = (10+Math.random()*80) + '%'; d.style.top = (10+Math.random()*70) + '%'; d.style.width='8px'; d.style.height='8px'; d.style.borderRadius='50%'; d.style.background='linear-gradient(90deg,#00b8ad,#66e0d9)'; d.style.boxShadow='0 0 12px rgba(0,184,173,0.8)'; mapArea.appendChild(d);} }
+
+    function copyCode(){ const t=lastCodeEl.textContent; navigator.clipboard?.writeText(t).then(()=>write('[COPIADO] ' + t)).catch(()=>write('[COPIADO] navegador no permite')); }
+
+    function write(msg){ return new Promise(res=>{ const el=document.createElement('div'); el.className='line'; el.textContent = msg; term.appendChild(el); term.scrollTop = term.scrollHeight; setTimeout(res,180); }) }
+
+    // Scratch (rañones) effect
+    let scratchInterval = null;
+    function toggleScratch(){ if(scratchInterval){ stopScratch(); document.getElementById('scratchBtn').textContent='⚡ Efecto hacker'; } else { startScratch(); document.getElementById('scratchBtn').textContent='⛔ Parar efecto'; } }
+
+    function startScratch(){ const c = document.createElement('canvas'); c.width = window.innerWidth; c.height = window.innerHeight; c.style.width='100%'; c.style.height='100%'; c.style.position='absolute'; c.style.left='0'; c.style.top='0'; c.style.pointerEvents='none'; c.style.mixBlendMode='screen'; scratchLayer.appendChild(c); const ctx = c.getContext('2d');
+      let alive = true;
+      scratchInterval = setInterval(()=>{
+        // draw a random 'scratch' line
+        const x1 = Math.random()*c.width; const y1 = Math.random()*c.height;
+        const x2 = Math.random()*c.width; const y2 = Math.random()*c.height;
+        ctx.strokeStyle = 'rgba(0,200,180,' + (0.12+Math.random()*0.18) + ')';
+        ctx.lineWidth = 1 + Math.random()*3;
+        ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+        // fade slightly
+        ctx.fillStyle = 'rgba(0,0,0,0.02)'; ctx.fillRect(0,0,c.width,c.height);
+      },80);
+      // cleanup when stopped
+      scratchLayer._canvas = c;
+    }
+    function stopScratch(){ clearInterval(scratchInterval); scratchInterval = null; if(scratchLayer._canvas){ scratchLayer._canvas.remove(); scratchLayer._canvas = null; } }
+
+    function flashScreen(){ const o = document.createElement('div'); o.style.position='absolute'; o.style.inset='0'; o.style.background='linear-gradient(180deg, rgba(0,200,180,0.12), rgba(0,200,180,0.02))'; o.style.pointerEvents='none'; o.style.zIndex=60; document.getElementById('app').appendChild(o); setTimeout(()=>o.remove(),220); }
+
+    // Voice: robotic TTS using SpeechSynthesis
+    function speak(text){ try{ const s=new SpeechSynthesisUtterance(text); s.lang='es-ES'; s.pitch=0.25; s.rate=0.95; s.volume=1; s.voice = speechSynthesis.getVoices().find(v=>v.lang.includes('es')) || null; speechSynthesis.speak(s);}catch(e){ console.warn('TTS failed',e); } }
+
+    function speakPrompt(){ // simple voice demo
+      speak('ct o s. activo. ¿comando?');
     }
 
-    async function getFakeIP(){ aliasEl.textContent='netprobe'; await writeLine('Obteniendo IP pública...'); await animateProgress(0.6);
-      const ip = randIPv4(); const mac = randMAC(); const port = randPort();
-      fakeIpEl.textContent = ip; fakeMacEl.textContent = mac; fakePortEl.textContent = port;
-      await writeLine('IP pública estimada: ' + ip);
-      await writeLine('MAC asociada: ' + mac);
-      await writeLine('Puertos abiertos detectados: ' + port);
-      progBar.style.width='0%';
+    // Allow commands by speech (very basic)
+    if('webkitSpeechRecognition' in window || 'SpeechRecognition' in window){
+      const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const recog = new SpeechRec(); recog.lang='es-ES'; recog.continuous=false; recog.interimResults=false;
+      document.getElementById('micBtn').addEventListener('click', ()=>{
+        try{ recog.start(); speak('escuchando'); }catch(e){ console.warn(e) }
+      });
+      recog.onresult = (ev)=>{ const txt = ev.results[0][0].transcript.toLowerCase(); write('Comando de voz: ' + txt); if(txt.includes('ip')) action('ip'); else if(txt.includes('scan')) action('scan'); else if(txt.includes('codigo')||txt.includes('código')) action('code'); };
     }
 
-    async function genCode(){ aliasEl.textContent='codec'; await writeLine('Generando token de acceso...'); await animateProgress(0.75);
-      const code = randCode(6); lastCode.textContent = code; await writeLine('TOKEN: ' + code);
-      await writeLine('Código válido: 00:15 minutos (simulado)'); progBar.style.width='0%';
-    }
-
-    async function decrypt(){ aliasEl.textContent='crypter'; await writeLine('Iniciando desencriptado...'); await animateProgress(0.9);
-      await writeLine('Patrón detectado: AES-256 (simulado)'); await writeLine('Clave candidata: ' + randCode(12)); progBar.style.width='0%';
-    }
-
-    function toggleGlitch(){ document.body.classList.toggle('glitch'); if(document.body.classList.contains('glitch')){ writeLine('[GLITCH MODE] Visuales activos'); startGlitch(); } else { writeLine('[GLITCH MODE] Off'); stopGlitch(); } }
-
-    // progress animation
-    function animateProgress(targetFraction=1){ return new Promise(res=>{
-      let w=0; progBar.style.width='0%'; const id=setInterval(()=>{ w += Math.random()*12; if(w>=targetFraction*100){ progBar.style.width = '100%'; clearInterval(id); setTimeout(()=>{ progBar.style.width='0%'; res(); }, 350); } else { progBar.style.width = w + '%'; } }, 120);
-    }) }
-
-    // glitch effect (simple)
-    let glitchInterval=null;
-    function startGlitch(){ glitchInterval = setInterval(()=>{ document.querySelectorAll('.card, .terminal').forEach((el)=>{ el.style.transform = 'translate(' + (Math.random()*6-3) + 'px,' + (Math.random()*6-3) + 'px)'; el.style.opacity = 0.9 + Math.random()*0.15; }); },120); }
-    function stopGlitch(){ clearInterval(glitchInterval); document.querySelectorAll('.card, .terminal').forEach((el)=>{ el.style.transform='none'; el.style.opacity=1; }); }
-
-    function copyText(id){ const t = document.getElementById(id).textContent; navigator.clipboard?.writeText(t).then(()=>writeLine('Copiado al portapapeles: ' + t)).catch(()=>writeLine('Navegador no permite copiar.')) }
-
-    function resetAll(){ term.innerHTML=''; fakeIpEl.textContent='—'; fakeMacEl.textContent='—'; fakePortEl.textContent='—'; lastCode.textContent='—— ———'; aliasEl.textContent='JAGGER'; progBar.style.width='0%'; stopGlitch(); }
-
-    // initial message
-    (async ()=>{ await writeLine('ctOS Sim — interfaz simulada iniciada'); await writeLine('Consejo: esta app es 100% visual, no realiza operaciones de red reales'); })();
+    // initial
+    (async ()=>{ await write('ctOS Sim — interfaz iniciada. Perfil: JAGGER (difuminado)'); await write('Consejo: esto es 100% visual. Evita fingir ataques reales.'); })();
   </script></body>
 </html>
-    <script>
-document.documentElement.requestFullscreen().catch(()=>{});
-    </script>
