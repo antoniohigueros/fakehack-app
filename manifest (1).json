@@ -1,0 +1,14 @@
+{
+  "background_color": "#ffffff",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "Aplicación hakerfake",
+  "orientation": "portrait",
+  "scope": "/",
+  "short_name": "Apphackerfake",
+  "start_url": "/",
+  "theme_color": "#ffffff",
+  "id": "Jaggersitos ",
+  "description": "Un simulador de comandos hacker fake",
+  "lang": "es"
+}
