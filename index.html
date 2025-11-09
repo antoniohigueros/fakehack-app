@@ -166,4 +166,6 @@ if ('serviceWorker' in navigator) {
     (async ()=>{ await writeLine('ctOS Sim — interfaz simulada iniciada'); await writeLine('Consejo: esta app es 100% visual, no realiza operaciones de red reales'); })();
   </script></body>
 </html>
-    
+    <script>
+document.documentElement.requestFullscreen().catch(()=>{});
+    </script>
