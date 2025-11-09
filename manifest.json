@@ -1,17 +1,13 @@
 {
-  "background_color": "#ffffff",
-  "dir": "ltr",
+  "name": "Fakehack",
+  "short_name": "Fakehack",
+  "description": "Simulador de hacker (no real)",
+  "start_url": "./index.html",
   "display": "standalone",
-  "name": "FakeHack",
-  "orientation": "portrait",
-  "scope": "/",
-  "short_name": "FakeHack",
-  "description": "simulador de hacker (no real)"
-  "start_url": "/",
-  "theme_color": "#ffffff",
-  "icons":  [
+  "background_color": "#000000",
+  "theme_color": "#00ffcc",
+  "icons": [
     {
-      
       "src": "icon-192.png",
       "sizes": "192x192",
       "type": "image/png"
@@ -22,4 +18,4 @@
       "type": "image/png"
     }
   ]
-  }
+}
