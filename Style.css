@@ -1,0 +1,70 @@
+body {
+  background-color: #020b16;
+  color: #00b8ff;
+  font-family: "Courier New", monospace;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.container {
+  text-align: center;
+  width: 90%;
+  max-width: 400px;
+  border: 1px solid #0077b6;
+  border-radius: 12px;
+  padding: 20px;
+  background: rgba(0, 0, 20, 0.8);
+  box-shadow: 0 0 25px #00b8ff;
+}
+
+.title {
+  font-size: 1.8em;
+  color: #00eaff;
+}
+
+.alias {
+  color: #90e0ef;
+  margin-bottom: 20px;
+}
+
+button {
+  background-color: transparent;
+  border: 1px solid #00b8ff;
+  color: #00eaff;
+  padding: 8px 12px;
+  margin: 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+button:hover {
+  background-color: #00b8ff;
+  color: #000;
+  box-shadow: 0 0 10px #00b8ff;
+}
+
+.output {
+  margin-top: 20px;
+  border-top: 1px solid #0077b6;
+  padding-top: 10px;
+}
+
+.code-box {
+  background: #00111a;
+  color: #00eaff;
+  padding: 10px;
+  border-radius: 6px;
+  margin: 10px 0;
+  font-size: 1.2em;
+  letter-spacing: 3px;
+}
+
+.footer {
+  margin-top: 20px;
+  font-size: 0.8em;
+  color: #48cae4;
+}
